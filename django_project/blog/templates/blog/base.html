@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//code.tidio.co/9g9dd3jba7ye3mfsh2vc8bqbtxqvhzdj.js" async></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+    {% if title %}
+        <title> Django-blog - {{ title }}</title>
+    {% else %}
+        <title> Django-blog</title>
+    {% endif %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg mb-5  bg-primary">
+        <div class="container">
+            <div class="col-md-12 ">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                    aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <a class="navbar-brand" href="{% url 'blog-home' %}">Django Blog</a>
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'blog-home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{%  url 'blog-about' %}">About</a>
+                        </li>
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-outline-success ms-5 me-2" href="{% url 'profile' %}">Profile</a> 
+                        <a class="btn btn-outline-success ms-5 me-2" href="{% url 'logout' %}">logout</a> 
+                        <a class="btn btn-outline-success ms-5 me-2" href="{% url 'post-create' %}">New Post</a> 
+                    {% else %}
+                        <a class="btn btn-outline-success ms-5 me-2" href="{% url 'register' %}">signup</a> 
+                        <a class="btn btn-outline-success" href="{% url 'login' %}">login</a>
+                    {% endif %}    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    
+
+    <div class="container ">
+        <div class="row  justify-content-center ">
+            <div class="col-md-8">
+                <!-- check any redirect messages -->
+                {% if messages %}            
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div> 
+                    {% endfor %}
+                {% endif %}
+                {% block content %} {% endblock content %}
+            </div>
+            <div class="col-md-4">
+                <div class="content-section">
+                    <h3>Sidebar</h3>
+                    <p class="text-muted"> You can put any information here 
+                        <ul class="list-group">
+                            <li class="list-group-item list-goup-item-light">Latest post</li>
+                            <li class="list-group-item list-goup-item-light">Announcement</li>
+                            <li class="list-group-item list-goup-item-light">Calendarst</li>
+                            <li class="list-group-item list-goup-item-light">etc..</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
